@@ -1,6 +1,6 @@
 from django.db import models
 
-from CARDCONTROL.settings import StatusChoices
+from CARDCONTROL.settings import StatusChoices, Type_Purchase_Choices
 
 
 class Card(models.Model):
@@ -15,9 +15,13 @@ class Card(models.Model):
 
 class Purchase(models.Model):
     title = models.CharField(max_length=100)
+    release_date = models.DateTimeField()
     price = models.FloatField()
-    address = models.CharField(max_length=100)
     card = models.ForeignKey("Card", on_delete=models.CASCADE)
+
+
+
+
 
 
 

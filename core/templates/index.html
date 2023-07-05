@@ -6,15 +6,15 @@
     {% for object in object_list %}
     <div class="col-sm-4">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body ">
                 <h2 class="card-title">{{ object.series }}</h2>
-                <h4 class="card-title text-muted {{ object.number|split }}">{{ object.number }}</h4>
-                <span>{{ object.end_date }}</span>
-                <p class="card-text"> {{ object.funds }} </p>
-                <span class="card-text {{ object.status|class_color }}"> {{ object.status }} </span>
+                <h4 class="card-title">{{ object.number|split }}</h4>
+                <span>Expiration date : {{ object.end_date|datesplit }}</span>
+                <p class="card-text">CVV : {{ object.cvv }}</p>
+                <span> Status : <span class="{{ object.status|class_color }}">{{ object.status }}</span></span>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn btn-primary" style="width: 100%">Detail</a>
+                <a href="{{object.id}}/detail-card/" class="btn btn-primary" style="width: 100%">Detail</a>
             </div>
         </div>
     </div>

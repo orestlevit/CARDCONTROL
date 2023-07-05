@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form method="post">{% csrf_token %}
+                <input type="text" class="form-control mb-3" maxlength="16" name="series" placeholder="Write series">
+                <input type="number" class="form-control mb-3" name="count" min="1" max="100" placeholder="Write count">
+                <div class="d-flex">
+                    <input type="number" class="form-control mb-3" name="period" placeholder="Write period">
+                    <input style="margin-left:10px" type="radio" class="custom-control-input" checked name="rad" value="month" id="month"><label for="month">Month</label>
+                    <input type="radio" class="custom-control-input" name="rad" value="year" id="year"><label for="year">Year</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Generate</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

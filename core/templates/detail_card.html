@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load core_tags %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <p align="right"><a class="btn btn-danger" href="/{{ object.id }}/detail-card/delete/"> Delete Card</a>
+                <a class="btn btn-warning" href="/{{ object.id }}/detail-card/edit/"> Edit Card</a></p>
+            <h3>Series : <u>{{ object.series }}</u></h3>
+            <h3>Number : <u>{{ object.number|split }}</u></h3>
+            <h3>Cvv : <u>{{ object.cvv }}</u></h3>
+
+
+            <p>Release date : <u>{{ object.release_date|datesplit }}</u></p>
+            <p>Expiration date : <u>{{ object.end_date|datesplit }}</u></p>
+            <p>Balance : <u>{{ object.funds }}</u></p>
+            <div align="right">
+                <form method="POST" action="/{{ object.id }}/detail-card/"> {% csrf_token %}
+                    {% if object.status == "Active" %}
+                    <button type="submit" class="btn btn-warning">Deactivate</button>
+                    {% elif object.status == "Inactive" %}
+                    <button type="submit" class="btn btn-success">Activate</button>
+                    {% endif %}
+                </form>
+                <h4 align="right"> Status : <span class="{{ object.status|class_color }}">{{ object.status }}</span></h4>
+            </div>
+            <div class="card-footer">
+                <H3>History</H3>
+                <a href="/purchase" class="btn btn-primary">Make Purchase</a>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock %}

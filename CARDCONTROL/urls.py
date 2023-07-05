@@ -14,11 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from core import views
 
 urlpatterns = [
+    path("__debug__/", include("debug_toolbar.urls")),
     path('admin/', admin.site.urls),
-    path('', views.ShowCardView.as_view())
+    path('', views.ShowCardView.as_view()),
+    path('card-add/', views.CardAddView.as_view()),
+    path('<int:pk>/detail-card/', views.DetailCardView.as_view()),
+    path('<int:pk>/detail-card/delete/', views.CardDeleteView.as_view()),
+    path('<int:pk>/detail-card/edit/', views.CardEditView.as_view()),
+    path('generation-card/', views.CardGenerationView.as_view()),
+    # path('purchase/', views.PurchaseView.as_view())
+
 ]
