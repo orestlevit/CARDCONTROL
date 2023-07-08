@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block content %}
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <form method="post">{% csrf_token %}
-                <input type="text" class="form-control mb-3" maxlength="100" name="title" placeholder="What did you buy?">
-                <input type="number" class="form-control mb-3" name="price" maxlength="100" placeholder="Write the purchase price">
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form method="post">{% csrf_token %}
+            {% bootstrap_form form %}
 
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
-            </form>
-        </div>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
     </div>
+</div>
 
 {% endblock %}

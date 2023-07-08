@@ -8,8 +8,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, FormView, DetailView, DeleteView, UpdateView
 
-from CARDCONTROL.settings import Type_Purchase_Choices
-from .forms import AddCardForm
+from CARDCONTROL.settings import Type_Purchase_Choices, StatusChoices
+from .forms import AddCardForm, PurchaseForm
 from .models import Card, Purchase
 
 
@@ -23,6 +23,17 @@ class CardAddView(FormView):
     form_class = AddCardForm
     template_name = "card_add.html"
     success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        context = self.get_context_data()
+        form = self.get_form(form_class)
+        context['form'] = form
+        if form.is_valid():
+            form.save()
+            return redirect("/")
+
+        return self.render_to_response(context)
 
 
 class DetailCardView(DetailView):
@@ -90,33 +101,28 @@ class CardGenerationView(ListView):
 
 
         for iterator in range(count):
+            print(count)
             Card.objects.create(
                 series=series,
                 number = get_random_card_number(),
                 cvv = get_random_card_cvv(),
                 release_date = timezone.now(),
                 end_date = create_end_date,
-                funds = random.randint(1, 100000000),
-                status = "Active"
+                funds = random.randint(1, 10000),
+                status = StatusChoices[0][0]
             )
-            return redirect(request.META['HTTP_REFERER'])
+            return redirect("/")
 
 
-class PurchaseView(ListView):
-    model = Purchase
+class PurchaseView(FormView):
+    form_class = PurchaseForm
     template_name = "purchase.html"
+    success_url = '/'
 
 
-    def post(self,request,*args, **kwargs):
-        title = request.POST.get("title")
-        price = float(request.POST.get("price"))
-        pk = self.kwargs.get("pk")
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
-        Purchase.objects.create(
-            title=title,
-            release_date = timezone.now(),
-            price=price,
-            card_id=pk,
 
-        )
-        return redirect(request.META['HTTP_REFERER'])
+

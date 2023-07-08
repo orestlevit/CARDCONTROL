@@ -16,9 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 StatusChoices = (
-    ("Active", "Active"),
-    ("Inactive", "Inactive"),
-    ("Overdue", "Overdue")
+    ("Active", 'Active'),
+    ("Inactive", 'Inactive'),
+    ("Overdue", 'Overdue')
 )
 
 Type_Purchase_Choices = (

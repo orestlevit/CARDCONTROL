@@ -27,6 +27,6 @@ urlpatterns = [
     path('<int:pk>/detail-card/delete/', views.CardDeleteView.as_view()),
     path('<int:pk>/detail-card/edit/', views.CardEditView.as_view()),
     path('generation-card/', views.CardGenerationView.as_view()),
-    # path('purchase/', views.PurchaseView.as_view())
+    path('purchase/', views.PurchaseView.as_view())
 
 ]
