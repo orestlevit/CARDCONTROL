@@ -31,3 +31,5 @@ class Purchase(models.Model):
 
 
 
+
+

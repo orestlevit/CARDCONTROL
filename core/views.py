@@ -1,12 +1,16 @@
+import http
 import random
 import string
+
+import status
 from django.utils import timezone
 
 from dateutil.relativedelta import relativedelta
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, response, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, FormView, DetailView, DeleteView, UpdateView
+from requests import Response
 
 from CARDCONTROL.settings import Type_Purchase_Choices, StatusChoices
 from .forms import AddCardForm, PurchaseForm
@@ -88,7 +92,6 @@ class CardGenerationView(ListView):
         period = int(request.POST.get("period"))
         year_or_month = request.POST.get("rad")
 
-
         create_end_date = timezone.now() + relativedelta(months=1)
 
         if year_or_month.lower() == "month":
@@ -97,21 +100,18 @@ class CardGenerationView(ListView):
         elif year_or_month.lower() == "year":
             create_end_date = timezone.now() + relativedelta(years=period)
 
-
-
-
         for iterator in range(count):
             print(count)
             Card.objects.create(
                 series=series,
-                number = get_random_card_number(),
-                cvv = get_random_card_cvv(),
-                release_date = timezone.now(),
-                end_date = create_end_date,
-                funds = random.randint(1, 10000),
-                status = StatusChoices[0][0]
+                number=get_random_card_number(),
+                cvv=get_random_card_cvv(),
+                release_date=timezone.now(),
+                end_date=create_end_date,
+                funds=random.randint(1, 10000),
+                status=StatusChoices[0][0]
             )
-            return redirect("/")
+        return redirect("/")
 
 
 class PurchaseView(FormView):
@@ -119,10 +119,22 @@ class PurchaseView(FormView):
     template_name = "purchase.html"
     success_url = '/'
 
-
     def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+        price = self.request.POST.get("price")
+        pk = self.request.POST.get("card")
+        card = Card.objects.get(id=pk)
+        if card.funds > int(price):
+            card.funds = card.funds - int(price)
+            card.save()
+            form.save()
+            return super().form_valid(form)
+        else:
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
 
 
+
+
+class PurchaseHistoryView(ListView):
+    model = Purchase
+    template_name = "purchase_history.html"

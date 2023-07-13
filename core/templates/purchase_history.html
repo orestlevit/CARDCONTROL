@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row ">
+        <h2 class=" row justify-content-center">Purchase History</h2>
+        {% for object in object_list %}
+        <div class="col-sm-4">
+
+            <div class="card mt-3">
+                <div class="card-body ">
+                    <h4>Card : {{ object.card }}</h4>
+                    <h4>Title : {{ object.title }}</h4>
+                    <h4>Price of purchase : {{ object.price }}</h4>
+                    <h4>Type : {{ object.type }}</h4>
+                    <h4>Release date : {{ object.release_date }}</h4>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
