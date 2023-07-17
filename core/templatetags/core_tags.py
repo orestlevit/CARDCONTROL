@@ -27,5 +27,9 @@ def get_color(value):
 
 @register.filter(name="datesplit")
 def get_code(value):
-    return value.strftime("%d/%m/%Y")
+    return value.strftime("%d/%m/%Y")\
+
+
+
+
 

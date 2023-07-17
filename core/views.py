@@ -22,6 +22,10 @@ class ShowCardView(ListView):
     template_name = "index.html"
     paginate_by = 6
 
+    def get_queryset(self):
+        if 'number' in self.request.GET and self.request.GET.get("number") != "":
+            return Card.objects.filter(number=self.request.GET.get("number"))
+        return super(ShowCardView, self).get_queryset()
 
 class CardAddView(FormView):
     form_class = AddCardForm
@@ -117,7 +121,7 @@ class CardGenerationView(ListView):
 class PurchaseView(FormView):
     form_class = PurchaseForm
     template_name = "purchase.html"
-    success_url = '/'
+    success_url = '/purchase-history'
 
     def form_valid(self, form):
         price = self.request.POST.get("price")
@@ -138,3 +142,8 @@ class PurchaseView(FormView):
 class PurchaseHistoryView(ListView):
     model = Purchase
     template_name = "purchase_history.html"
+    paginate_by = 4
+
+
+
+

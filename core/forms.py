@@ -38,11 +38,6 @@ class PurchaseForm(forms.ModelForm):
         }
 
 
-    def minus_price(self, request):
-        price = request.POST.get("price")
-        print(price)
-
-
 
 
 
